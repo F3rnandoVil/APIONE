@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form >
+        numero: <input type="text" id="txtnum"><br>
+        <button type="button" id="btnList">Listar</button>
+        <button type="button" id="btnSearch">Buscar</button>
+        <button type="button" id="btnAdd">Agregar</button>
+        <button type="button" id="btnErrase">Eliminar</button>
+    </form>
+</body>
+<script>
+    const btnList = document.getElementById('btnList');
+    const btnSearch = document.getElementById('btnSearch');
+    const btnAdd = document.getElementById('btnAdd');
+    const btnErrase = document.getElementById('btnErrase');
+    btnList.addEventListener('click', () => {
+        console.log('Listar');
+        fetch('http://localhost:3000/numeros')
+        .then(response => response.json())
+        .then((json) => {
+            console.log(json);
+        });
+    });
+    btnAdd.addEventListener('click', () => {
+        let txtnum = parseInt(document.getElementById('txtnum').value);
+    fetch('http://localhost:3000/numeros', {
+        method: 'POST',
+        body: JSON.stringify({ numero: txtnum }),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    })
+    .then(response => response.json())
+    .then((json) => {
+        console.log(json);
+        });
+    });
+
+    btnErrase.addEventListener('click', () => {
+        let txtnum = parseInt(document.getElementById('txtnum').value);
+        fetch('http://localhost:3000/numeros/:id', {
+            method: 'DELETE',
+            body: JSON.stringify({ id: txtnum }),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(response => response.json())
+        .then((json) => {
+            console.log(json);
+        });
+    });
+
+    btnSearch.addEventListener('click', () => {
+        let txtnum = parseInt(document.getElementById('txtnum').value);
+        fetch('http://localhost:3000/numeros/:id', {
+            method: 'GET',
+            body: JSON.stringify({ id: txtnum }),
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        })
+        .then(response => response.json())
+        .then((json) => {
+            console.log(json);
+        });
+    });
+
+</script>
+</html>
